@@ -30,3 +30,5 @@ StatSight is a web-based exploratory data analysis (EDA) tool developed using St
 
 1. Upload a dataset in CSV, TSV, XLSX, or XLS format.
 2. Select the **Basic EDA** option from the sidebar menu to perform basic exploratory data analysis, including visualizing missing values, displaying correlation matrices, and creating various plots.
+
+### How about sprinkling some stardust on the repo with a ⭐?
