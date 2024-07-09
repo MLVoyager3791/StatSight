@@ -2,16 +2,24 @@ import streamlit as st
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+from ydata_profiling import ProfileReport
+from streamlit_pandas_profiling import st_profile_report
+import sweetviz as sv
+from sklearn.model_selection import train_test_split
 import warnings
 
 # Ignore warnings to keep the output clean
 warnings.filterwarnings("ignore")
+
+# Disable the global plotting warning from matplotlib
+st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # Define a class to hold settings for the application
 class Settings:
     def __init__(self):
         self.app_name = "StatSight - An EDA Tool 📊"
         self.tagline = "See the Unseen...🧐🔍"
+        self.admin_email = "labeleddata4ml@gmail.com"
 
 # Function to load settings from the Settings class
 def load_settings():
@@ -20,7 +28,7 @@ def load_settings():
 # Function to display the sidebar menu and return the user's choice
 def display_sidebar():
     st.sidebar.title("Your EDA Tool")
-    menu = ["Basic EDA"]
+    menu = ["Pandas-Profiling", "Basic EDA", "SweetViz"]
     choice = st.sidebar.selectbox("Select an option", menu)
     return choice
 
@@ -42,11 +50,21 @@ def upload_file():
             st.error(f"Error: {e}")
     return None
 
+# Function to generate a pandas profiling report
+def pandas_profiling(data):
+    st.header("Automated Data Report")
+    profile = ProfileReport(data, explorative=True)
+    st_profile_report(profile)
+
 # Function to perform basic exploratory data analysis
 def basic_eda(data):
     display_basic_info(data)
     visualize_missing_values(data)
     display_correlation_matrix(data)
+    plot_pairplot(data)
+    plot_boxplot(data)
+    plot_histogram(data)
+    plot_scatter(data)
 
 # Function to display basic information about the dataset
 def display_basic_info(data):
@@ -120,6 +138,53 @@ def display_correlation_matrix(data):
     sns.heatmap(numeric_data.corr(), annot=True, cmap="viridis")
     st.pyplot()
 
+# Function for pairplot
+def plot_pairplot(data):
+    st.header("Pairplot")
+    sns.pairplot(data=data)
+    st.pyplot()
+
+# Function for boxplot
+def plot_boxplot(data):
+    st.header("Boxplot")
+    plt.figure(figsize=(10, 6))
+    sns.boxplot(data=data, palette="viridis")
+    plt.xticks(rotation=45, ha='right')
+    st.pyplot()
+
+# Function for histogram for each numerical column but will also include columns that doesn't have much continuous range
+def plot_histogram(data):
+    st.header("Histogram")
+    num_cols = data.select_dtypes(include=[float, int]).columns
+    for col in num_cols:
+        plt.figure(figsize=(10, 6))
+        sns.histplot(data[col], kde=True)
+        st.pyplot()
+
+# Function for scatter plot
+def plot_scatter(data):
+    st.header("Scatter Plot")
+    num_cols = data.select_dtypes(include=[float, int]).columns
+    if len(num_cols) >= 2:
+        x_axis = st.selectbox("Select X-axis column for scatter plot", num_cols)
+        y_axis = st.selectbox("Select Y-axis column for scatter plot", num_cols)
+        plt.figure(figsize=(10, 6))
+        sns.scatterplot(x=data[x_axis], y=data[y_axis])
+        st.pyplot()
+
+# Function to generate a SweetViz analysis report
+def sweetviz_analysis(data):
+    sweetviz_report = sv.analyze(data)
+    sweetviz_report.show_html("Full Report.html")
+    st.header("SweetViz Full Report")
+    st.markdown(f"[Download Full Report](FullReport.html)", unsafe_allow_html=True)
+
+    train_df, test_df = train_test_split(data, train_size=0.75)
+    compare = sv.compare(source=train_df, compare=test_df)
+    compare.show_html('Compare.html')
+    st.header("SweetViz Comparison Report")
+    st.markdown(f"[Download Comparison Report](Compare.html)", unsafe_allow_html=True)
+
 # Main function to run the application
 def main():
     settings = load_settings()
@@ -131,8 +196,12 @@ def main():
     data = upload_file()
 
     if data is not None:
-        if choice == "Basic EDA":
+        if choice == "Pandas-Profiling":
+            pandas_profiling(data)
+        elif choice == "Basic EDA":
             basic_eda(data)
+        elif choice == "SweetViz":
+            sweetviz_analysis(data)
 
 # Run the main function
 if __name__ == "__main__":
