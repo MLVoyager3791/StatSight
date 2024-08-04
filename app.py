@@ -11,9 +11,6 @@ import warnings
 # Ignore warnings to keep the output clean
 warnings.filterwarnings("ignore")
 
-# Disable the global plotting warning from matplotlib
-st.set_option('deprecation.showPyplotGlobalUse', False)
-
 # Define a class to hold settings for the application
 class Settings:
     def __init__(self):
