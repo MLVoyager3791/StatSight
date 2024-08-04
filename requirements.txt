@@ -1,0 +1,11 @@
+pandas
+numpy
+seaborn
+matplotlib
+scikit-learn
+streamlit
+ydata_profiling
+sweetviz
+streamlit_pandas_profiling
+visions
+openpyxl
