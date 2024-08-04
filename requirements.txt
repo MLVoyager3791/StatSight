@@ -4,8 +4,8 @@ seaborn
 matplotlib
 sklearn
 streamlit
-ydata_profiling==4.8.3
+ydata_profiling
 sweetviz
 streamlit_pandas_profiling
-visions==0.7.5
-openpyxl==3.1.0
+visions
+openpyxl
