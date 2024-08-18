@@ -1,10 +1,12 @@
 # StatSight - An EDA Tool 📊
 
-StatSight is a web-based exploratory data analysis (EDA) tool developed using Streamlit, Pandas, and Seaborn. It provides various functionalities to analyze and visualize datasets.
+StatSight is a web-based exploratory data analysis (EDA) tool developed using Streamlit, Pandas, Seaborn, Matplotlib, ydata_profiling, and Sweetviz. It provides various functionalities to analyze and visualize datasets.
 
 ## Features
 
+- **Pandas-Profiling:** Generate automated data reports using Pandas profiling.
 - **Basic EDA:** Perform basic exploratory data analysis, including visualizing missing values, displaying correlation matrices, creating pair plots, box plots, histograms, and scatter plots.
+- **SweetViz:** Generate comprehensive analysis reports using SweetViz, including full reports and comparison reports.
 
 ## Installation
 
@@ -29,6 +31,10 @@ StatSight is a web-based exploratory data analysis (EDA) tool developed using St
 ## Usage
 
 1. Upload a dataset in CSV, TSV, XLSX, or XLS format.
-2. Select the **Basic EDA** option from the sidebar menu to perform basic exploratory data analysis, including visualizing missing values, displaying correlation matrices, and creating various plots.
+2. Select an option from the sidebar menu:
+    - **Pandas-Profiling:** Generate an automated data report.
+    - **Basic EDA:** Perform basic exploratory data analysis.
+    - **SweetViz:** Generate comprehensive analysis reports.
+
 
 ### How about sprinkling some stardust on the repo with a ⭐?
